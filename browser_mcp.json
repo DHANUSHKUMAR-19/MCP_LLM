@@ -19,7 +19,15 @@
           "-y",
           "duckduckgo-mcp-server"
         ]
+    },
+      "weather": {
+      "command": "npx",
+        "args": [
+            "-y",
+            "@h1deya/mcp-server-weather"
+        ]
     }
+
     }
 
     }
