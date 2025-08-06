@@ -1,4 +1,5 @@
 import asyncio
+import time
 
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
@@ -26,6 +27,7 @@ async def run_memory_chat():
 
     #LLM
     llm=ChatGroq(model="qwen/qwen3-32b")
+    #llm = ChatGroq(model="qwen-qwq-32b")
 
     # Create agent with memory_enabled =true
 
@@ -34,8 +36,6 @@ async def run_memory_chat():
         client=client,
         max_steps=15,
         memory_enabled=True
-
-
     )
 
     print("\n==Interactive MCP Chat==")
@@ -71,8 +71,13 @@ async def run_memory_chat():
                 #Run the agent with the user input(Memory handling is automatic)
                 response=await agent.run(user_input)
                 print(response)
+                time.sleep(10)
+
             except Exception as e:
                 print(f"\nError : {e}")
+                if "rate_limit_exceeded" in str(e):
+                    print("Rate limit hit. Waiting 15 seconds before next attempt...")
+                    time.sleep(15)
 
     finally:
         #clean up
